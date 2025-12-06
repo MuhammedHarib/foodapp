@@ -14,7 +14,7 @@ import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityIntroBinding;
 import com.example.foodapp.databinding.ActivityMainBinding;
 
-public class introActivity extends AppCompatActivity {
+public class introActivity extends BaseActivity {
      ActivityIntroBinding binding;
 
     @Override
