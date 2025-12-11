@@ -4,7 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 
-import com.example.project162.Domain.Foods;
+import com.example.foodapp.Domain.Foods;
 
 import java.util.ArrayList;
 

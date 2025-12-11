@@ -37,6 +37,7 @@
                     android:layout_width="42dp"
                     android:layout_height="42dp"
                     android:layout_marginEnd="4dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/backBtn"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/favorite" />
@@ -56,7 +57,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView10"
+                    android:id="@+id/pic"
                     android:layout_width="0dp"
                     android:layout_height="312dp"
                     android:layout_marginTop="15dp"
@@ -211,7 +212,7 @@ Delicious, satisfying, and always fresh."
                     app:layout_constraintTop_toTopOf="@+id/linearLayout">
 
                     <TextView
-                        android:id="@+id/textView13"
+                        android:id="@+id/minusBtn"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:gravity="center"
@@ -221,7 +222,7 @@ Delicious, satisfying, and always fresh."
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView12"
+                        android:id="@+id/numTxt"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -232,7 +233,7 @@ Delicious, satisfying, and always fresh."
                         android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/plusBtn"
                         android:layout_width="28dp"
                         android:layout_height="28dp"
 
@@ -259,10 +260,11 @@ Delicious, satisfying, and always fresh."
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:id="@+id/Totaltxt"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
             android:text="$0"
             android:textColor="@color/dark_blue"
             android:textStyle="bold"
@@ -279,10 +281,10 @@ Delicious, satisfying, and always fresh."
             android:textColor="@color/dark_blue"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/button" />
+            app:layout_constraintTop_toTopOf="@+id/addBtn" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button"
+            android:id="@+id/addBtn"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="160dp"
             android:layout_height="wrap_content"

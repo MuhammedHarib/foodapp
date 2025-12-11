@@ -1,9 +1,11 @@
 package com.example.foodapp.Adapter;
 
+import com.example.foodapp.Activity.ListFoodActivity;
 import com.example.foodapp.Domain.Category;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,10 +41,20 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.viewho
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.viewholder holder, int position) {
         holder.titleTxt.setText(items.get(position).getName());
-        int drawableResourceId = context.getResources().getIdentifier(items.get(position).getImagePath(),"drawable",holder.itemView.getContext().getPackageName());
+
         Glide.with(context)
                 .load(items.get(position).getImagePath())
                 .into(holder.pic);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ListFoodActivity.class);
+                intent.putExtra("CategoryId",items.get(position).getId());
+                intent.putExtra("CategoryName",items.get(position).getName());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
