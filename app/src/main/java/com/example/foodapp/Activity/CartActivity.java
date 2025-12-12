@@ -1,5 +1,6 @@
 package com.example.foodapp.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -8,7 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.foodapp.Adapter.CartAdapter;
+import com.example.foodapp.Helper.ChangeNumberItemsListener;
 import com.example.foodapp.Helper.ManagmentCart;
 import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityCartBinding;
@@ -46,6 +50,9 @@ public class CartActivity extends BaseActivity {
             binding.emptyTxt.setVisibility(View.GONE);
             binding.scrollViewCart.setVisibility(View.VISIBLE);
         }
+        binding.cartView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        binding.cartView.setAdapter(new CartAdapter(managmentCart.getListCart(),managmentCart , () -> calculateCart()));
+
     }
 
     private void calculateCart() {
@@ -64,6 +71,6 @@ public class CartActivity extends BaseActivity {
 
     private void setVariable() {
 
-        binding.backBtn.setOnClickListener(v -> finish());
+        binding.backBtn.setOnClickListener(v -> startActivity(new Intent(CartActivity.this,MainActivity.class)));
     }
 }

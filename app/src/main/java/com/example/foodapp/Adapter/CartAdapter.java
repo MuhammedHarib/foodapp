@@ -83,7 +83,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
             plusItem= itemView.findViewById(R.id.plusCartBtn);
             minusItem= itemView.findViewById(R.id.minusCartBtn);
             pic= itemView.findViewById(R.id.pic);
-            num= itemView.findViewById(R.id.numTxt);
+            num= itemView.findViewById(R.id.numberitemTxt);
             trashBtn= itemView.findViewById(R.id.trashBtn);
         }
     }
