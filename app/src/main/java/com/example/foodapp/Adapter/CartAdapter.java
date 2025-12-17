@@ -49,19 +49,38 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.viewholder> {
                 .transform(new CenterCrop(),new RoundedCorners(30))
                 .into(holder.pic);
 
-        holder.plusItem.setOnClickListener(v -> managmentCart.plusNumberItem(List, position, () -> {
-            notifyDataSetChanged();
+        holder.plusItem.setOnClickListener(v -> managmentCart.plusNumberItem(List, holder.getAdapterPosition(), () -> {
+            notifyItemChanged(holder.getAdapterPosition());
             changeNumberItemsListener.change();
         }));
 
-        holder.minusItem .setOnClickListener(v -> managmentCart.plusNumberItem(List, position, () -> {
-            notifyDataSetChanged();
-            changeNumberItemsListener.change();
-        }));
-        holder.trashBtn.setOnClickListener(v -> managmentCart.removeItem(List, position, () -> {
-            notifyDataSetChanged();
-            changeNumberItemsListener.change();
-        }));
+        holder.minusItem.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos == RecyclerView.NO_POSITION) return;
+
+            int beforeSize = List.size();
+            managmentCart.minusNumberItem(List, pos, () -> {
+                int afterSize = List.size();
+                if (pos != RecyclerView.NO_POSITION) {
+                    if (afterSize < beforeSize) {
+                        notifyItemRemoved(pos);
+                    } else {
+                        notifyItemChanged(pos);
+                    }
+                    changeNumberItemsListener.change();
+                }
+            });
+        });
+
+        holder.trashBtn.setOnClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                managmentCart.removeItem(List, pos, () -> {
+                    notifyItemRemoved(pos);
+                    changeNumberItemsListener.change();
+                });
+            }
+        });
 
     }
 

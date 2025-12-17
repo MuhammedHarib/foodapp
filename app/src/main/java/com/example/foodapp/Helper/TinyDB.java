@@ -327,6 +327,7 @@ public class TinyDB {
     }
 
 
+    @SuppressWarnings("unchecked")
     public ArrayList<Foods> getListObject(String key){
         Gson gson = new Gson();
 
@@ -342,6 +343,7 @@ public class TinyDB {
 
 
 
+    @SuppressWarnings("unchecked")
     public <T> T getObject(String key, Class<T> classOfT){
 
         String json = getString(key);

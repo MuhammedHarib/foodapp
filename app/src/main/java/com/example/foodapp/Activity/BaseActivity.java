@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
-import com.example.foodapp.R;
-import com.google.firebase.Firebase;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class BaseActivity extends AppCompatActivity {
@@ -26,5 +24,13 @@ public class BaseActivity extends AppCompatActivity {
         Window w=getWindow();
         w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+
+        // Hide system navigation bars for a fullscreen experience; swipe brings them back temporarily.
+        WindowCompat.setDecorFitsSystemWindows(w, false);
+        WindowInsetsControllerCompat controller = ViewCompat.getWindowInsetsController(w.getDecorView());
+        if (controller != null) {
+            controller.hide(WindowInsetsCompat.Type.systemBars());
+            controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+        }
     }
 }

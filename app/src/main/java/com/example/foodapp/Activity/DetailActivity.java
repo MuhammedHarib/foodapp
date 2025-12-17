@@ -43,9 +43,9 @@ binding= ActivityDetailBinding.inflate(getLayoutInflater());
         binding.priceTxt.setText("$"+object.getPrice());
         binding.titleTxt.setText(object.getTitle());
         binding.descriptionTxt.setText(object.getDescription());
-        binding.ratingTxt.setText(object.getStar()+"Rating");
+        binding.ratingTxt.setText(object.getStar()+" Rating");
         binding.ratingBar5.setRating((float) object.getStar());
-        binding.Totaltxt.setText(num+object.getPrice()+"$");
+        binding.Totaltxt.setText("$"+(num * object.getPrice()));
 
 
         binding.plusBtn.setOnClickListener(v -> {

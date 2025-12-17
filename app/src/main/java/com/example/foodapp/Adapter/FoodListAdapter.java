@@ -24,7 +24,7 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.viewho
     ArrayList<Foods> items;
     Context context;
 
-    public FoodListAdapter(ArrayList<Foods> item) {
+    public FoodListAdapter(ArrayList<Foods> items) {
         this.items = items;
     }
 
@@ -71,11 +71,11 @@ public class FoodListAdapter extends RecyclerView.Adapter<FoodListAdapter.viewho
 
         public viewholder(@NonNull View itemView) {
             super(itemView);
-            timetxt=itemView.findViewById(R.id.titlletxt);
+            timetxt=itemView.findViewById(R.id.timetxt);
             ratingtxt=itemView.findViewById(R.id.ratingtxt);
             pricetxt=itemView.findViewById(R.id.pricetxt);
             titletxt=itemView.findViewById(R.id.titlletxt);
-            pic=itemView.findViewById(R.id.pic);
+            pic=itemView.findViewById(R.id.img);
         }
     }
 }
