@@ -1,11 +1,20 @@
 package com.example.foodapp.Domain;
 
 public class Category {
+    private int Id;
     private String ImagePath;
-    private  String Name;
-    private  int Id;
+    private String Name;
 
     public Category() {
+        // Required empty constructor for Firebase
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
     }
 
     public String getImagePath() {
@@ -22,13 +31,5 @@ public class Category {
 
     public void setName(String name) {
         Name = name;
-    }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int id) {
-        Id = id;
     }
 }

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.CompositePageTransformer;
 import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.foodapp.Adapter.CategoryAdapter;
 import com.example.foodapp.Adapter.SliderAdapter;
@@ -20,96 +21,100 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.ismaeldivita.chipnavigation.ChipNavigationBar;
 
 import java.util.ArrayList;
 
-public class MainActivity extends BaseActivity{
-       ActivityMainBinding binding;
+public class MainActivity extends BaseActivity {
+
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
-        initCategory();
         initBanner();
-        setVariable();
-
+        initCategory();
+        setupBottomMenu();
     }
 
+    /* -------------------- BANNER -------------------- */
     private void initBanner() {
-
-        DatabaseReference myRef= database.getReference("Banners");
+        DatabaseReference myRef = database.getReference("Banners");
         binding.progressBarBanner.setVisibility(View.VISIBLE);
-        ArrayList<SliderItems> items= new ArrayList<>();
+
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue: snapshot.getChildren()){
-                        items.add(issue.getValue(SliderItems.class));
+                ArrayList<SliderItems> banners = new ArrayList<>();
+
+                if (snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        SliderItems item = ds.getValue(SliderItems.class);
+                        if (item != null) banners.add(item);
                     }
-                    Banners(items);
-                    binding.progressBarBanner.setVisibility(View.GONE);
                 }
+
+                if (!banners.isEmpty()) {
+                    SliderAdapter adapter = new SliderAdapter(banners);
+                    binding.viewPager2.setAdapter(adapter);
+                }
+
+                binding.progressBarBanner.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                binding.progressBarBanner.setVisibility(View.GONE);
             }
         });
     }
 
-    private void Banners (ArrayList<SliderItems> items){
-
-        binding.viewPager2.setAdapter(new SliderAdapter(items,binding.viewPager2));
-        binding.viewPager2.setClipChildren(false);
-        binding.viewPager2.setClipToPadding(false);
-        binding.viewPager2.setOffscreenPageLimit(3);
-        binding.viewPager2.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
-        CompositePageTransformer compositePageTransformer=new CompositePageTransformer();
-        compositePageTransformer.addTransformer(new MarginPageTransformer(40));
-        binding.viewPager2.setPageTransformer(compositePageTransformer);
-
-    }
-
-    private void setVariable() {
-        binding.bottomMenu.setItemSelected(R.id.Home , true);
-        binding.bottomMenu.setOnItemSelectedListener(i -> {
-            if (i==R.id.cart){
-                startActivity(new Intent(MainActivity.this,CartActivity.class));
-            }
-        });
-    }
-
+    /* -------------------- CATEGORY -------------------- */
     private void initCategory() {
-        DatabaseReference  myRef = database.getReference("Category");
+        DatabaseReference myRef = database.getReference("Category");
         binding.progressBarCategory.setVisibility(View.VISIBLE);
-        ArrayList<Category> list= new ArrayList<>();
 
+        ArrayList<Category> list = new ArrayList<>();
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot issue : snapshot.getChildren()){
-                        list.add(issue.getValue(Category.class));
+                if (snapshot.exists()) {
+                    for (DataSnapshot ds : snapshot.getChildren()) {
+                        Category category = ds.getValue(Category.class);
+                        if (category != null) list.add(category);
                     }
-                    if (list.size()>0)
-                    {
-                        binding.categoryView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
-                        binding.categoryView.setAdapter(new CategoryAdapter(list));
-                    }
-                    binding.progressBarCategory.setVisibility(View.GONE);
                 }
+
+                if (!list.isEmpty()) {
+                    binding.categoryView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
+                    binding.categoryView.setNestedScrollingEnabled(false);
+                    binding.categoryView.setAdapter(new CategoryAdapter(MainActivity.this, list));
+                }
+
+                binding.progressBarCategory.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                binding.progressBarCategory.setVisibility(View.GONE);
+            }
+        });
+    }
 
+    /* -------------------- BOTTOM MENU -------------------- */
+    private void setupBottomMenu() {
+        binding.bottomMenu.setItemSelected(R.id.Home, true);
+
+        binding.bottomMenu.setOnItemSelectedListener(id -> {
+            if (id == R.id.favorites) {
+                startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
+            } else if (id == R.id.cart) {
+                startActivity(new Intent(MainActivity.this, CartActivity.class));
+            } else if (id == R.id.profile) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
             }
         });
     }

@@ -8,9 +8,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,42 +19,38 @@ import com.example.foodapp.R;
 
 import java.util.List;
 
-public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Sliderviewholder> {
-     private List<SliderItems> sliderItems;
-     private ViewPager2 viewpager2;
-     private Context context;
-     private  Runnable runnable= new Runnable() {
-         @Override
-         public void run() {
-        sliderItems.addAll(sliderItems);
-        notifyDataSetChanged();
-         }
-     };
+public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.SliderViewHolder> {
 
-    public SliderAdapter(List<SliderItems> sliderItems, ViewPager2 viewpager2) {
+    private final List<SliderItems> sliderItems;
+    private Context context;
 
-        this.sliderItems=sliderItems;
-        this.viewpager2=viewpager2;
+    public SliderAdapter(List<SliderItems> sliderItems) {
+        // List already prepared (with fake items if needed)
+        this.sliderItems = sliderItems;
     }
 
     @NonNull
     @Override
-    public SliderAdapter.Sliderviewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        context=parent.getContext();
-        return new Sliderviewholder(LayoutInflater.from(parent.getContext()).inflate(R.layout.slider_viewholder,parent,false));
+    public SliderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        context = parent.getContext();
+        View view = LayoutInflater.from(context)
+                .inflate(R.layout.slider_viewholder, parent, false);
+        return new SliderViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SliderAdapter.Sliderviewholder holder, int position) {
-        RequestOptions requestOptions=new RequestOptions();
-        requestOptions=requestOptions.transform(new CenterCrop(),new  RoundedCorners(60));
+    public void onBindViewHolder(@NonNull SliderViewHolder holder, int position) {
+
+        RequestOptions requestOptions = new RequestOptions()
+                .transform(new CenterCrop(), new RoundedCorners(60));
+
         Glide.with(context)
                 .load(sliderItems.get(position).getImage())
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.error_image)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .apply(requestOptions)
                 .into(holder.imageView);
-        if (position == sliderItems.size()-2) {
-              viewpager2.post(runnable);
-        }
     }
 
     @Override
@@ -62,11 +58,15 @@ public class SliderAdapter extends RecyclerView.Adapter<SliderAdapter.Sliderview
         return sliderItems.size();
     }
 
-    public class Sliderviewholder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        public Sliderviewholder(@NonNull View itemView) {
+    /* -------------------- VIEW HOLDER -------------------- */
+
+    public static class SliderViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView imageView;
+
+        public SliderViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView= itemView.findViewById(R.id.imageSlider);
+            imageView = itemView.findViewById(R.id.imageSlider);
         }
     }
 }

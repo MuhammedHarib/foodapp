@@ -14,6 +14,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.foodapp.Domain.Foods;
 import com.example.foodapp.Helper.ManagmentCart;
+import com.example.foodapp.Helper.ManagmentFavorite;
 import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityDetailBinding;
 
@@ -22,6 +23,9 @@ public class DetailActivity extends BaseActivity {
     private  Foods object;
     private int num=1;
     private ManagmentCart managmentCart;
+
+    private ManagmentFavorite managmentFavorite;
+    private boolean isFav = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,34 @@ binding= ActivityDetailBinding.inflate(getLayoutInflater());
           managmentCart.insertFood(object);
        });
 
+        managmentFavorite = new ManagmentFavorite(this);
+
+// initial heart state
+        isFav = managmentFavorite.isFavorite(object);
+        updateFavIcon();
+
+        binding.faveBtn.setOnClickListener(v -> {
+            if (isFav) {
+                managmentFavorite.removeFavorite(object);
+                isFav = false;
+            } else {
+                managmentFavorite.addFavorite(object);
+                isFav = true;
+            }
+            updateFavIcon();
+        });
+
+
+
     }
+    private void updateFavIcon() {
+        if (isFav) {
+            binding.faveBtn.setImageResource(R.drawable.favorite_red);
+        } else {
+            binding.faveBtn.setImageResource(R.drawable.favorite);
+        }
+    }
+
 
     private void getIntentExtra() {
         object= (Foods) getIntent().getSerializableExtra("object");
