@@ -12,45 +12,64 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodApp">
-        <activity
-            android:name=".Activity.ProfileActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.FavoriteActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.AdminMainActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.AdminLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.SignupActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activity.LoginActivity"
-            android:exported="false" />
+
+        <!-- 🚀 ENTRY POINT -->
         <activity
             android:name=".Activity.IntroActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- 🔐 AUTH -->
+        <activity
+            android:name=".Activity.LoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.SignupActivity"
+            android:exported="false" />
+
+        <!-- 🏠 MAIN -->
         <activity
             android:name=".Activity.MainActivity"
             android:exported="false" />
+
+        <!-- 👤 PROFILE -->
+        <activity
+            android:name=".Activity.ProfileActivity"
+            android:exported="false" />
+
+        <!-- ❤️ FAVORITES -->
+        <activity
+            android:name=".Activity.FavoriteActivity"
+            android:exported="false" />
+
+        <!-- 🛒 CART -->
         <activity
             android:name=".Activity.CartActivity"
             android:exported="false" />
+
+        <!-- 🍔 FOOD -->
         <activity
             android:name=".Activity.ListFoodActivity"
             android:exported="false" />
+
         <activity
             android:name=".Activity.DetailActivity"
             android:exported="false" />
+
+        <!-- 🔐 ADMIN (SEPARATE FLOW) -->
+        <activity
+            android:name=".Activity.AdminLoginActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".Activity.AdminMainActivity"
+            android:exported="false" />
+
     </application>
 
 </manifest>

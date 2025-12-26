@@ -13,7 +13,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class BaseActivity extends AppCompatActivity {
-    FirebaseDatabase database;
+
+    protected FirebaseDatabase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,16 +22,21 @@ public class BaseActivity extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
 
-        Window w=getWindow();
-        w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        Window w = getWindow();
+        w.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        );
 
-        // Hide system navigation bars for a fullscreen experience; swipe brings them back temporarily.
         WindowCompat.setDecorFitsSystemWindows(w, false);
-        WindowInsetsControllerCompat controller = ViewCompat.getWindowInsetsController(w.getDecorView());
+        WindowInsetsControllerCompat controller =
+                ViewCompat.getWindowInsetsController(w.getDecorView());
+
         if (controller != null) {
             controller.hide(WindowInsetsCompat.Type.systemBars());
-            controller.setSystemBarsBehavior(WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
+            controller.setSystemBarsBehavior(
+                    WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            );
         }
     }
 }

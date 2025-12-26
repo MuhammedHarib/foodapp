@@ -1,10 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.SignupActivity">
+    android:background="#FFEFDA">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- Decorative Background Icons Layer -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Pizza Icon - Top Right -->
+
+        <!-- Burger Icon - Bottom Left -->
+
+        <ImageView
+            android:id="@+id/bg_pizza_1"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="-50dp"
+            android:layout_marginEnd="-60dp"
+            android:alpha="0.10"
+            android:contentDescription="@string/decorative_pizza"
+            android:src="@drawable/ic_pizza"
+            app:tint="#E0675E" />
+
+        <ImageView
+            android:id="@+id/bg_burger_1"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="-40dp"
+            android:layout_marginStart="-40dp"
+            android:alpha="0.10"
+            android:src="@drawable/ic_burger"
+            android:contentDescription="@string/decorative_burger"
+            app:tint="#E0675E" />
+
+        <!-- Pizza Icon - Middle Left -->
+        <ImageView
+            android:id="@+id/bg_pizza_2"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="-32dp"
+            android:layout_marginTop="210dp"
+            android:alpha="0.08"
+            android:src="@drawable/ic_pizza"
+            android:contentDescription="@string/decorative_pizza"
+            app:tint="#E0675E" />
+
+        <!-- Burger Icon - Middle Right -->
+        <ImageView
+            android:id="@+id/bg_burger_2"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="-32dp"
+            android:layout_marginTop="567dp"
+            android:alpha="0.08"
+            android:src="@drawable/ic_burger"
+            android:contentDescription="@string/decorative_burger"
+            app:tint="#E0675E" />
+
+        <!-- Additional Pizza - Top Left -->
+        <ImageView
+            android:id="@+id/bg_pizza_3"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="-40dp"
+            android:layout_marginTop="64dp"
+            android:alpha="0.07"
+            android:src="@drawable/ic_pizza"
+            android:contentDescription="@string/decorative_pizza"
+            app:tint="#E0675E" />
+
+        <!-- Additional Burger - Bottom Right -->
+        <ImageView
+            android:id="@+id/bg_burger_3"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="-40dp"
+            android:layout_marginBottom="80dp"
+            android:alpha="0.07"
+            android:src="@drawable/ic_burger"
+            android:contentDescription="@string/decorative_burger"
+            app:tint="#E0675E" />
+
+    </RelativeLayout>
+
+    <!-- Main Content - Login Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:elevation="12dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="32dp">
+
+            <!-- App Logo/Icon -->
+            <FrameLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/circle_background">
+
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_logo"
+                    android:src="@drawable/logo" />
+
+            </FrameLayout>
+
+            <!-- Title -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/sign_up"
+                android:textColor="#2E4058"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+
+            <!-- Subtitle -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="32dp"
+                android:alpha="0.7"
+                android:fontFamily="sans-serif"
+                android:text="@string/signup_subtitle"
+                android:textColor="#2E4058"
+                android:textSize="14sp" />
+
+            <!-- Email Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/email"
+                android:textColor="#2E4058"
+                android:textSize="14sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:boxBackgroundColor="#FFFFFF"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="@color/input_stroke_color"
+                app:boxStrokeWidth="2dp"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/emailInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_email"
+                    android:inputType="textEmailAddress"
+                    android:padding="12dp"
+                    android:textColor="#2E4058"
+                    android:textColorHint="#8899AA"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/password"
+                android:textColor="#2E4058"
+                android:textSize="14sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:boxBackgroundColor="#FFFFFF"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="@color/input_stroke_color"
+                app:boxStrokeWidth="2dp"
+                app:hintEnabled="false"
+                app:passwordToggleEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/passwordInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/enter_password"
+                    android:inputType="textPassword"
+                    android:padding="12dp"
+                    android:textColor="#2E4058"
+                    android:textColorHint="#8899AA"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Login Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/signupButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="24dp"
+                android:backgroundTint="#E0675E"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/Signup"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:cornerRadius="12dp"
+                app:elevation="0dp" />
+
+            <!-- Remember Me Checkbox -->
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/rememberMeCheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remember Me"
+                android:textColor="#2E4058"
+                android:layout_marginBottom="16dp"
+                android:layout_gravity="start"/>
+
+            <!-- Sign Up Text -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.7"
+                    android:fontFamily="sans-serif"
+                    android:text="@string/have_account"
+                    android:textColor="#2E4058"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/signUpText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/log_in"
+                    android:textColor="#E0675E"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

@@ -6,10 +6,6 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.CompositePageTransformer;
-import androidx.viewpager2.widget.MarginPageTransformer;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.foodapp.Adapter.CategoryAdapter;
 import com.example.foodapp.Adapter.SliderAdapter;
@@ -17,6 +13,7 @@ import com.example.foodapp.Domain.Category;
 import com.example.foodapp.Domain.SliderItems;
 import com.example.foodapp.R;
 import com.example.foodapp.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,15 +28,40 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // 🔐 LOGIN GUARD
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+            startActivity(new Intent(this, LoginActivity.class));
+            finish();
+            return;
+        }
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Profile click (top section)
+        binding.imageView6.setOnClickListener(v ->
+                startActivity(new Intent(this, ProfileActivity.class))
+        );
+
+        binding.textView2.setOnClickListener(v ->
+                startActivity(new Intent(this, ProfileActivity.class))
+        );
 
         initBanner();
         initCategory();
         setupBottomMenu();
     }
 
-    /* -------------------- BANNER -------------------- */
+    // ✅ FIX: prevent crash when returning from other activities
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (binding != null) {
+            binding.bottomMenu.setItemSelected(R.id.Home, true);
+        }
+    }
+
     private void initBanner() {
         DatabaseReference myRef = database.getReference("Banners");
         binding.progressBarBanner.setVisibility(View.VISIBLE);
@@ -49,18 +71,14 @@ public class MainActivity extends BaseActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 ArrayList<SliderItems> banners = new ArrayList<>();
 
-                if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        SliderItems item = ds.getValue(SliderItems.class);
-                        if (item != null) banners.add(item);
-                    }
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    SliderItems item = ds.getValue(SliderItems.class);
+                    if (item != null) banners.add(item);
                 }
 
                 if (!banners.isEmpty()) {
-                    SliderAdapter adapter = new SliderAdapter(banners);
-                    binding.viewPager2.setAdapter(adapter);
+                    binding.viewPager2.setAdapter(new SliderAdapter(banners));
                 }
-
                 binding.progressBarBanner.setVisibility(View.GONE);
             }
 
@@ -71,7 +89,6 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    /* -------------------- CATEGORY -------------------- */
     private void initCategory() {
         DatabaseReference myRef = database.getReference("Category");
         binding.progressBarCategory.setVisibility(View.VISIBLE);
@@ -81,19 +98,19 @@ public class MainActivity extends BaseActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot ds : snapshot.getChildren()) {
-                        Category category = ds.getValue(Category.class);
-                        if (category != null) list.add(category);
-                    }
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Category category = ds.getValue(Category.class);
+                    if (category != null) list.add(category);
                 }
 
                 if (!list.isEmpty()) {
-                    binding.categoryView.setLayoutManager(new GridLayoutManager(MainActivity.this, 3));
-                    binding.categoryView.setNestedScrollingEnabled(false);
-                    binding.categoryView.setAdapter(new CategoryAdapter(MainActivity.this, list));
+                    binding.categoryView.setLayoutManager(
+                            new GridLayoutManager(MainActivity.this, 3)
+                    );
+                    binding.categoryView.setAdapter(
+                            new CategoryAdapter(MainActivity.this, list)
+                    );
                 }
-
                 binding.progressBarCategory.setVisibility(View.GONE);
             }
 
@@ -104,17 +121,26 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    /* -------------------- BOTTOM MENU -------------------- */
     private void setupBottomMenu() {
+
+        // ✅ Always highlight Home in MainActivity
         binding.bottomMenu.setItemSelected(R.id.Home, true);
 
         binding.bottomMenu.setOnItemSelectedListener(id -> {
+
+            // ❌ Do nothing if Home is clicked again
+            if (id == R.id.Home) {
+                return;
+            }
+
             if (id == R.id.favorites) {
-                startActivity(new Intent(MainActivity.this, FavoriteActivity.class));
-            } else if (id == R.id.cart) {
-                startActivity(new Intent(MainActivity.this, CartActivity.class));
-            } else if (id == R.id.profile) {
-                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                startActivity(new Intent(this, FavoriteActivity.class));
+            }
+            else if (id == R.id.cart) {
+                startActivity(new Intent(this, CartActivity.class));
+            }
+            else if (id == R.id.profile) {
+                startActivity(new Intent(this, ProfileActivity.class));
             }
         });
     }

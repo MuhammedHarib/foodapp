@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Base Colors -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="dark_blue">#2E4058</color>
+
+    <!-- App Theme Colors -->
+    <color name="background_yellow">#FFEFDA</color>
+    <color name="primary_red">#E0675E</color>
     <color name="red">#E0675E</color>
+    <color name="dark_blue">#2E4058</color>
     <color name="yellow">#FFEFDA</color>
+
+    <!-- Input Field Borders -->
+    <color name="input_border_default">#E5E7EB</color>
+    <color name="input_border_focused">#E0675E</color>
+
 </resources>

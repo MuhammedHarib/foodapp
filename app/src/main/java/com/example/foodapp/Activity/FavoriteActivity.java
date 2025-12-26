@@ -11,14 +11,18 @@ import com.example.foodapp.databinding.ActivityFavoriteBinding;
 
 public class FavoriteActivity extends BaseActivity {
 
-    ActivityFavoriteBinding binding;
-    ManagmentFavorite managmentFavorite;
+    private ActivityFavoriteBinding binding;
+    private ManagmentFavorite managmentFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         binding = ActivityFavoriteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // 🔙 Back button → return to MainActivity
+        binding.backBtn.setOnClickListener(v -> finish());
 
         managmentFavorite = new ManagmentFavorite(this);
 
