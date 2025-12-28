@@ -24,7 +24,7 @@
     <string name="decorative_pizza">Decorative Pizza Icon</string>
     <string name="decorative_burger">Decorative Burger Icon</string>
 
-<!--    profile activity-->
+    <!--    profile activity-->
 
     <string name="profile_my_orders">My Orders</string>
     <string name="profile_payment_methods">Payment Methods</string>
