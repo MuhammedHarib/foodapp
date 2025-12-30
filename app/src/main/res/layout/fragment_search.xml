@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_yellow">
+
+    <!-- SEARCH BAR -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Search food..."
+            android:inputType="text"
+            android:drawableStart="@drawable/search_icon"
+            android:drawablePadding="10dp"
+            android:background="@drawable/white_bg"
+            android:padding="12dp"
+            android:textColor="@color/dark_blue"
+            android:textColorHint="@color/gray"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- RESULTS -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchResultsRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"/>
+</LinearLayout>

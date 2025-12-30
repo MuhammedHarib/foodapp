@@ -12,6 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FoodApp">
+
         <activity
             android:name=".Activity.AdminOrderDetail"
             android:exported="false" />
@@ -69,6 +70,11 @@
         <activity
             android:name=".Activity.AdminMainActivity"
             android:exported="false" />
+
+        <activity android:name=".Activity.AddFoodActivity" />
+        <activity android:name=".Activity.AddCategoryActivity" />
+
+
     </application>
 
 </manifest>

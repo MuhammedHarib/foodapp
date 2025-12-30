@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,8 +27,9 @@ public class CheckoutActivity extends BaseActivity {
     private MaterialButton placeOrderBtn;
     private ProgressBar progressBar;
     private ImageView backBtn;
+    private TextView totalCheckoutTxt;   // ✅
 
-    private double total; // Total passed from CartActivity
+    private double total;
     private ManagmentCart managmentCart;
     private DatabaseReference database;
 
@@ -40,15 +42,16 @@ public class CheckoutActivity extends BaseActivity {
         placeOrderBtn = findViewById(R.id.placeOrderBtn);
         progressBar = findViewById(R.id.progressBar);
         backBtn = findViewById(R.id.backBtn);
+        totalCheckoutTxt = findViewById(R.id.totalCheckoutTxt); // ✅
 
         managmentCart = new ManagmentCart(this);
         database = FirebaseDatabase.getInstance().getReference();
 
-        // Get total from CartActivity
-        total = getIntent().getDoubleExtra("total", 0);
+        // ✅ Receive total
+        total = getIntent().getDoubleExtra("total", 0.0);
+        totalCheckoutTxt.setText("Total: $" + total);
 
         backBtn.setOnClickListener(v -> finish());
-
         placeOrderBtn.setOnClickListener(v -> placeOrder());
     }
 
@@ -76,23 +79,21 @@ public class CheckoutActivity extends BaseActivity {
         orderMap.put("address", address);
         orderMap.put("status", "Pending");
 
-        database.child("Orders").child(orderId).setValue(orderMap, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError error, @NonNull DatabaseReference ref) {
-                progressBar.setVisibility(ProgressBar.GONE);
+        database.child("Orders").child(orderId)
+                .setValue(orderMap, (error, ref) -> {
+                    progressBar.setVisibility(ProgressBar.GONE);
 
-                if (error == null) {
-                    managmentCart.clearCart();
-                    Toast.makeText(CheckoutActivity.this, "Order placed successfully", Toast.LENGTH_SHORT).show();
+                    if (error == null) {
+                        managmentCart.clearCart();
+                        Toast.makeText(this, "Order placed successfully", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(CheckoutActivity.this, OrderHistoryActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(CheckoutActivity.this, "Failed to place order", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+                        Intent intent = new Intent(this, OrderHistoryActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Toast.makeText(this, "Failed to place order", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }

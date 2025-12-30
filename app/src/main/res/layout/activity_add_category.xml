@@ -1,50 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_yellow"
-    tools:context=".Activity.AddCategoryActivity">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/bg_pizza_1"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="-48dp"
-            android:layout_marginEnd="-48dp"
-            android:alpha="0.10"
-            android:src="@drawable/ic_pizza"
-            app:tint="#E0675E" />
-
-        <ImageView
-            android:id="@+id/bg_burger_1"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginBottom="-40dp"
-            android:layout_marginStart="-40dp"
-            android:alpha="0.10"
-            android:src="@drawable/ic_burger"
-            app:tint="#E0675E" />
-
-    </RelativeLayout>
+    android:background="@color/background_yellow">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:elevation="12dp"
-        app:cardBackgroundColor="#FFFFFF"
+        android:layout_margin="24dp"
         app:cardCornerRadius="24dp"
         app:cardElevation="12dp">
 
@@ -65,63 +30,45 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="32dp"
-                android:fontFamily="sans-serif-medium"
                 android:text="Add Category"
                 android:textColor="#2E4058"
-                android:textSize="28sp"
-                android:textStyle="bold" />
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="24dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="Category Name"
-                android:textColor="#2E4058"
-                android:textSize="14sp" />
+                android:layout_marginBottom="16dp"
+                app:boxBackgroundMode="outline">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/categoryNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Category Name" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:boxBackgroundColor="#FFFFFF"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="12dp"
-                app:boxCornerRadiusTopEnd="12dp"
-                app:boxCornerRadiusBottomStart="12dp"
-                app:boxCornerRadiusBottomEnd="12dp"
-                app:boxStrokeColor="@color/input_stroke_color"
-                app:boxStrokeWidth="2dp"
-                app:hintEnabled="false">
-
+                app:boxBackgroundMode="outline">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/categoryNameInput"
+                    android:id="@+id/categoryImageInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Category Name"
-                    android:inputType="text"
-                    android:padding="12dp"
-                    android:textColor="#2E4058"
-                    android:textColorHint="#8899AA"
-                    android:textSize="14sp" />
-
+                    android:hint="Image URL (Icon)" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/addCategoryButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:backgroundTint="#E0675E"
-                android:fontFamily="sans-serif-medium"
+                android:background="@drawable/red_bg_full_corner"
                 android:text="Add Category"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                app:cornerRadius="12dp"
-                app:elevation="0dp" />
+                android:textStyle="bold" />
 
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
 </FrameLayout>

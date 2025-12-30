@@ -1,6 +1,5 @@
 package com.example.foodapp.Activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -47,7 +46,9 @@ public class AdminOrdersActivity extends AppCompatActivity {
     }
 
     private void fetchOrders() {
+        // MATCHING FIREBASE: Screenshot shows "Orders" with a capital O
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Orders");
+
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -56,19 +57,19 @@ public class AdminOrdersActivity extends AppCompatActivity {
                     for (DataSnapshot ds : snapshot.getChildren()) {
                         Order order = ds.getValue(Order.class);
                         if (order != null) {
-                            order.setOrderId(ds.getKey());
+                            order.setOrderId(ds.getKey()); // Set the ID from the Firebase Key
                             ordersList.add(order);
                         }
                     }
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(AdminOrdersActivity.this, "No orders found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminOrdersActivity.this, "No orders found in database", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AdminOrdersActivity.this, "Failed: " + error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AdminOrdersActivity.this, "Database Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

@@ -27,7 +27,6 @@ public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDeta
     @NonNull
     @Override
     public AdminOrderDetailAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the correct layout for order items
         View view = LayoutInflater.from(context).inflate(R.layout.viewholder_admin_order_item, parent, false);
         return new ViewHolder(view);
     }
@@ -36,19 +35,18 @@ public class AdminOrderDetailAdapter extends RecyclerView.Adapter<AdminOrderDeta
     public void onBindViewHolder(@NonNull AdminOrderDetailAdapter.ViewHolder holder, int position) {
         Map<String, Object> item = itemsList.get(position);
 
-        // Safely get values from the map
         String title = item.get("title") != null ? item.get("title").toString() : "N/A";
-        String quantity = item.get("quantity") != null ? item.get("quantity").toString() : "0";
+        String quantity = item.get("numberInCart") != null ? item.get("numberInCart").toString() : "0";
         String price = item.get("price") != null ? item.get("price").toString() : "0.0";
 
-        holder.titleTxt.setText("Food Name: " + title);
+        holder.titleTxt.setText(title);
         holder.quantityTxt.setText("Qty: " + quantity);
-        holder.priceTxt.setText("Price: $" + price);
+        holder.priceTxt.setText("$" + price);
     }
 
     @Override
     public int getItemCount() {
-        return itemsList.size();
+        return itemsList != null ? itemsList.size() : 0;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

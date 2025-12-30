@@ -2,26 +2,21 @@ package com.example.foodapp.Activity;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-
+import androidx.activity.OnBackPressedCallback;
 import com.example.foodapp.R;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddFoodActivity extends BaseActivity {
 
-    private TextInputEditText foodNameInput;
-    private TextInputEditText foodPriceInput;
-    private TextInputEditText foodImageUrlInput;
-    private MaterialButton addFoodButton;
+    private TextInputEditText foodNameInput, foodPriceInput, foodImageUrlInput,
+            foodDescriptionInput, foodStarInput, foodCategoryIdInput;
+    private Button addFoodButton;
     private ImageView backBtn;
 
     @Override
@@ -32,69 +27,61 @@ public class AddFoodActivity extends BaseActivity {
         foodNameInput = findViewById(R.id.foodNameInput);
         foodPriceInput = findViewById(R.id.foodPriceInput);
         foodImageUrlInput = findViewById(R.id.foodImageUrlInput);
+        foodDescriptionInput = findViewById(R.id.foodDescriptionInput);
+        foodStarInput = findViewById(R.id.foodStarInput);
+        foodCategoryIdInput = findViewById(R.id.foodCategoryIdInput);
         addFoodButton = findViewById(R.id.addFoodButton);
         backBtn = findViewById(R.id.backBtn);
 
-        backBtn.setOnClickListener(v -> finish());
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                finish();
+            }
+        });
 
+        backBtn.setOnClickListener(v -> finish());
         addFoodButton.setOnClickListener(v -> addFood());
     }
 
     private void addFood() {
-        String name = foodNameInput.getText().toString().trim();
+        String title = foodNameInput.getText().toString().trim();
         String priceStr = foodPriceInput.getText().toString().trim();
         String imageUrl = foodImageUrlInput.getText().toString().trim();
+        String categoryIdStr = foodCategoryIdInput.getText().toString().trim();
 
-        if (TextUtils.isEmpty(name)) {
-            Toast.makeText(this, "Please enter food name", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(title) || TextUtils.isEmpty(priceStr) || TextUtils.isEmpty(categoryIdStr)) {
+            Toast.makeText(this, "Please fill required fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (TextUtils.isEmpty(priceStr)) {
-            Toast.makeText(this, "Please enter price", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        // Use "Foods" node
+        DatabaseReference ref = database.getReference("Foods");
 
-        if (TextUtils.isEmpty(imageUrl)) {
-            Toast.makeText(this, "Please enter image URL", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        // FIX: Create a numeric ID instead of a "weird string"
+        // This takes the current time and shortens it to a valid integer range
+        int numericId = (int) (System.currentTimeMillis() % 100000000);
 
-        double price;
-        try {
-            price = Double.parseDouble(priceStr);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid price format", Toast.LENGTH_SHORT).show();
-            return;
-        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("Title", title); //
+        map.put("Description", foodDescriptionInput.getText().toString().trim()); //
+        map.put("Price", Double.parseDouble(priceStr)); // Save as Number
+        map.put("ImagePath", imageUrl); //
+        map.put("Star", Double.parseDouble(foodStarInput.getText().toString().isEmpty() ? "0" : foodStarInput.getText().toString())); //
 
-        DatabaseReference foodsRef = database.getReference("Foods");
-        String pushId = foodsRef.push().getKey();
+        // CRITICAL FIX: Save CategoryId as a Number, not a String
+        map.put("CategoryId", Integer.parseInt(categoryIdStr));
+        map.put("Id", numericId); // Save ID as a Number
+        map.put("BestFood", true);
 
-        Map<String, Object> foodMap = new HashMap<>();
-        foodMap.put("name", name);
-        foodMap.put("price", price);
-        foodMap.put("imageUrl", imageUrl);
-        foodMap.put("categoryId", 0);
-
-        foodsRef.child(pushId).setValue(foodMap, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError error, @NonNull DatabaseReference ref) {
-                if (error == null) {
-                    Toast.makeText(AddFoodActivity.this, "Food added", Toast.LENGTH_SHORT).show();
-                    foodNameInput.setText("");
-                    foodPriceInput.setText("");
-                    foodImageUrlInput.setText("");
-                } else {
-                    Toast.makeText(AddFoodActivity.this, "Failed to add food", Toast.LENGTH_SHORT).show();
-                }
+        // Use the numericId as the key name so the node is "12345" instead of "-OhWF..."
+        ref.child(String.valueOf(numericId)).setValue(map).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(this, "Added! Use ID: " + numericId, Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "Database Error", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
     }
 }

@@ -155,6 +155,44 @@
                 android:textColor="#2E4058"
                 android:textSize="14sp" />
 
+            <!-- Username Input -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="Username"
+                android:textColor="#2E4058"
+                android:textSize="14sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:boxBackgroundColor="#FFFFFF"
+                app:boxBackgroundMode="outline"
+                app:boxCornerRadiusTopStart="12dp"
+                app:boxCornerRadiusTopEnd="12dp"
+                app:boxCornerRadiusBottomStart="12dp"
+                app:boxCornerRadiusBottomEnd="12dp"
+                app:boxStrokeColor="@color/input_stroke_color"
+                app:boxStrokeWidth="2dp"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/usernameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Enter username"
+                    android:inputType="textPersonName"
+                    android:padding="12dp"
+                    android:textColor="#2E4058"
+                    android:textColorHint="#8899AA"
+                    android:textSize="14sp" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
             <!-- Email Input -->
             <TextView
                 android:layout_width="wrap_content"

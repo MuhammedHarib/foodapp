@@ -3,7 +3,7 @@ package com.example.foodapp.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.foodapp.Adapter.CartAdapter;
@@ -14,6 +14,7 @@ public class CartActivity extends BaseActivity {
 
     private ActivityCartBinding binding;
     private ManagmentCart managmentCart;
+    private double finalTotal = 0.0;   // ✅ store final total
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +25,8 @@ public class CartActivity extends BaseActivity {
         managmentCart = new ManagmentCart(this);
 
         setVariable();
-        calculateCart();
         initCartList();
+        calculateCart();
     }
 
     private void initCartList() {
@@ -48,25 +49,27 @@ public class CartActivity extends BaseActivity {
     private void calculateCart() {
         double percentTax = 0.02;
         double delivery = 10;
+
         double tax = Math.round(managmentCart.getTotalFee() * percentTax * 100.0) / 100.0;
-        double total = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100.0) / 100.0;
+        finalTotal = Math.round((managmentCart.getTotalFee() + tax + delivery) * 100.0) / 100.0;
         double itemTotal = Math.round(managmentCart.getTotalFee() * 100.0) / 100.0;
 
         binding.totalFeeTxt.setText("$" + itemTotal);
         binding.taxTxt.setText("$" + tax);
         binding.deliveryTxt.setText("$" + delivery);
-        binding.totalTxt.setText("$" + total);
-
-        // Pass total to checkout
-        binding.CheckOutBtn.setOnClickListener(v -> {
-            if (managmentCart.getListCart().isEmpty()) return;
-            Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
-            intent.putExtra("total", total); // Pass total to checkout
-            startActivity(intent);
-        });
+        binding.totalTxt.setText("$" + finalTotal);
     }
 
     private void setVariable() {
         binding.backBtn.setOnClickListener(v -> finish());
+
+        // ✅ Checkout click ONLY here
+        binding.CheckOutBtn.setOnClickListener(v -> {
+            if (managmentCart.getListCart().isEmpty()) return;
+
+            Intent intent = new Intent(CartActivity.this, CheckoutActivity.class);
+            intent.putExtra("total", finalTotal);
+            startActivity(intent);
+        });
     }
 }

@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.foodapp.Activity.AdminOrdersActivity; // replace with detail activity if you have one
+import com.example.foodapp.Activity.AdminOrderDetail;
 import com.example.foodapp.Domain.Order;
 import com.example.foodapp.R;
 
@@ -29,8 +29,8 @@ public class AdminOrdersAdapter extends RecyclerView.Adapter<AdminOrdersAdapter.
     @NonNull
     @Override
     public AdminOrdersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context)
-                .inflate(R.layout.viewholder_admin_order, parent, false);
+        // Ensure this layout exists in your res/layout folder
+        View view = LayoutInflater.from(context).inflate(R.layout.viewholder_admin_order, parent, false);
         return new ViewHolder(view);
     }
 
@@ -38,24 +38,24 @@ public class AdminOrdersAdapter extends RecyclerView.Adapter<AdminOrdersAdapter.
     public void onBindViewHolder(@NonNull AdminOrdersAdapter.ViewHolder holder, int position) {
         Order order = orderList.get(position);
 
-        // Truncate order ID to first 8 chars
-        String orderIdDisplay = order.getOrderId() != null && order.getOrderId().length() > 8
+        // Display shorter ID for UI cleanliness
+        String orderIdDisplay = (order.getOrderId() != null && order.getOrderId().length() > 8)
                 ? order.getOrderId().substring(0, 8)
                 : order.getOrderId();
 
-        holder.orderIdTxt.setText("Order ID: " + orderIdDisplay);
+        holder.orderIdTxt.setText("Order ID: #" + orderIdDisplay);
         holder.orderTotalTxt.setText("Total: $" + String.format("%.2f", order.getTotal()));
         holder.orderStatusTxt.setText("Status: " + order.getStatus());
         holder.orderAddressTxt.setText("Address: " + order.getAddress());
 
-        // Click to open detail (currently points to same activity, you can replace with detail activity)
         holder.itemView.setOnClickListener(v -> {
-            Intent intent = new Intent(context, AdminOrdersActivity.class); // replace if you create AdminOrderDetailActivity
+            // FIX: Pointing to AdminOrderDetail instead of AdminOrdersActivity
+            Intent intent = new Intent(context, AdminOrderDetail.class);
             intent.putExtra("orderId", order.getOrderId());
             intent.putExtra("total", order.getTotal());
             intent.putExtra("status", order.getStatus());
             intent.putExtra("address", order.getAddress());
-            intent.putExtra("items", order.getItems()); // Serializable
+            intent.putExtra("items", order.getItems()); // ArrayList<Map<String, Object>> is Serializable
             context.startActivity(intent);
         });
     }
@@ -70,6 +70,7 @@ public class AdminOrdersAdapter extends RecyclerView.Adapter<AdminOrdersAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            // Verify these IDs match your viewholder_admin_order.xml
             orderIdTxt = itemView.findViewById(R.id.orderIdTxt);
             orderTotalTxt = itemView.findViewById(R.id.orderTotalTxt);
             orderStatusTxt = itemView.findViewById(R.id.orderStatusTxt);
